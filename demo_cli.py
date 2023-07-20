@@ -7,8 +7,6 @@ from pathlib import Path
 import numpy as np
 import librosa
 import argparse
-import torch
-import sys
 from g2p.train import g2p
 import soundfile as sf
 

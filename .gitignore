@@ -1,0 +1,4 @@
+encoder/saved_models/*
+g2p/log/*
+synthesizer/saved_models/*
+vocoder/saved_models/*
