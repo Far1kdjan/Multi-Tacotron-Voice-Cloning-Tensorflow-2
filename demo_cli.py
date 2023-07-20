@@ -26,6 +26,9 @@ if __name__ == '__main__':
     parser.add_argument("-v", "--voc_model_fpath", type=Path, 
                         default="vocoder/saved_models/pretrained/pretrained.pt",
                         help="Path to a saved vocoder")
+    parser.add_argument("-g", "--g2p_logs_path", type=Path, 
+                        default="g2p/log/",
+                        help="Path to a g2p logs")
     parser.add_argument("--low_mem", action="store_true", help=\
         "If True, the memory used by the synthesizer will be freed after each use. Adds large "
         "overhead but allows to save some GPU memory for lower-end GPUs.")
@@ -42,26 +45,6 @@ if __name__ == '__main__':
     if not args.no_sound:
         import sounddevice as sd
         
-    
-    ## Print some environment information (for debugging purposes)
-    print("Running a test of your configuration...\n")
-    if not torch.cuda.is_available():
-        print("Your PyTorch installation is not configured to use CUDA. If you have a GPU ready "
-              "for deep learning, ensure that the drivers are properly installed, and that your "
-              "CUDA version matches your PyTorch installation. CPU-only inference is currently "
-              "not supported.", file=sys.stderr)
-        quit(-1)
-    device_id = torch.cuda.current_device()
-    gpu_properties = torch.cuda.get_device_properties(device_id)
-    print("Found %d GPUs available. Using GPU %d (%s) of compute capability %d.%d with "
-          "%.1fGb total memory.\n" % 
-          (torch.cuda.device_count(),
-           device_id,
-           gpu_properties.name,
-           gpu_properties.major,
-           gpu_properties.minor,
-           gpu_properties.total_memory / 1e9))
-    
     
     ## Load the models one by one.
     print("Preparing the encoder, the synthesizer and the vocoder...")
@@ -152,7 +135,7 @@ if __name__ == '__main__':
     
     # The synthesizer works in batch, so you need to put your data in a list or numpy array
     texts = [args.text]
-    texts = g2p(texts)
+    texts = g2p(texts, args.g2p_logs_path)
     print(texts)
     embeds = [embed]
     # If you know what the attention layer alignments are, you can retrieve them here by

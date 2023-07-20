@@ -19,11 +19,10 @@ class Hparams:
     phonemes = ["<pad>", "<unk>", "<s>", "</s>", "оу", "ай", "ей", "ой","Оу", "Ай", "Ей", "Ой"] + list(".,?!ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя")
     # dictionary(Словарь)
     dicdir = "g2p/en.dic"
-    # Save Model( Сохранённая модель)
+    # Save Model (Сохранённая модель)
     logdir = "g2p/log/"
     
 def load_dict(path_dict):
-    phon = []
     words = {}
     with open(path_dict,"r", encoding='utf-8') as f:
         for line in f:
@@ -187,8 +186,8 @@ class Net:
             
     def train(self, xs, ys):
         # forward
-        last_hidden, words = self.encode(xs)
-        logits, y_hat, y, prons, last_hidden = self.decode(ys, h0=last_hidden)
+        last_hidden, _ = self.encode(xs)
+        logits, _, y, _, last_hidden = self.decode(ys, h0=last_hidden)
         
         # train scheme
         ce = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=y)
@@ -241,7 +240,7 @@ def calc_num_batches(total_num, batch_size):
 def per(ref, hyp):
     '''Calc phoneme error rate'''
     num_phonemes, num_erros = 0, 0
-    g2idx, idx2g, p2idx, idx2p = load_vocab()
+    _, _, _, idx2p = load_vocab()
     for r, h in zip(ref, hyp):
         r = r.split()
         h = " ".join(idx2p[idx] for idx in h)
@@ -288,7 +287,7 @@ def load_vocab():
 
     return g2idx, idx2g, p2idx, idx2p # note that g and p mean grapheme and phoneme, respectively.    
 
-def g2p(text):
+def g2p(text, logdir="g2p/log/"):
     global hp 
     hp = Hparams()
     re_for_russian_letters = re.compile(
@@ -310,13 +309,13 @@ def g2p(text):
         k = k+2
     text_all = text_str
     out_phons = []
-    ckpt = tf.train.latest_checkpoint(hp.logdir)
+    ckpt = tf.train.latest_checkpoint(logdir)
     tf.compat.v1.reset_default_graph()
     if (k>200):
         bs=hp.batch_size
     else:
         bs = k
-    test_batches, num_test_batches, num_test_samples  = get_batch(text_all, text_all,
+    test_batches, num_test_batches, _  = get_batch(text_all, text_all,
                                                                   bs,
                                                                   shuffle=False)
     iter = tf.compat.v1.data.Iterator.from_structure(test_batches.output_types, test_batches.output_shapes)
@@ -340,7 +339,7 @@ def g2p(text):
             _y_hats.extend(_y_hat.tolist())
             if (i % 10==0):
                 print(i,"/",num_test_batches)
-        g2idx, idx2g, p2idx, idx2p = load_vocab()
+        _, _, _, idx2p = load_vocab()
         num_test_batches = len(_y_hats)
         for h in  _y_hats:
             num_test_batches = num_test_batches-1
@@ -361,11 +360,6 @@ def g2p(text):
     return out_phons
 
 
-
-    
-
-
-
 def tn():
     global hp
     hp = Hparams()
@@ -373,13 +367,13 @@ def tn():
     cmu = load_dict(hp.dicdir)
   
         
-    train_words, eval_words, test_words, train_prons, eval_prons, test_prons = prepare_data()
+    train_words, eval_words, _, train_prons, eval_prons, test_prons = prepare_data()
 
     tf.compat.v1.reset_default_graph()
     # prepare batches
-    train_batches, num_train_batches, num_train_samples = get_batch(train_words, train_prons,
+    train_batches, num_train_batches, _ = get_batch(train_words, train_prons,
                              hp.batch_size, shuffle=True)
-    eval_batches, num_eval_batches, num_eval_samples = get_batch(eval_words, eval_prons,
+    eval_batches, num_eval_batches, _ = get_batch(eval_words, eval_prons,
                              hp.batch_size, shuffle=False)
     # create a iterator of the correct shape and type
     iter = tf.compat.v1.data.Iterator.from_structure(train_batches.output_types, train_batches.output_shapes)
@@ -387,19 +381,7 @@ def tn():
     # create the initialisation operations
     train_init_op = iter.make_initializer(train_batches)
     eval_init_op = iter.make_initializer(eval_batches)
-    # variable specs
-    def print_variable_specs(fpath):
-        def get_size(shp):
-            size = 1
-            for d in range(len(shp)):
-                size *=shp[d]
-            return size
-
-        params, num_params = [], 0
-        for v in tf.compat.v1.global_variables():
-            params.append("{}==={}\n".format(v.name, v.shape))
-            num_params += get_size(v.shape)
-        print("num_params:", num_params)
+    
     # Load model
     net = Net(hp)
     xs, ys = iter.get_next()
