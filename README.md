@@ -6,7 +6,7 @@ This repository is a phonemic multilingual (Russian-English) implementation base
 Этот репозиторий является многоязычной(русско-английской) фонемной реализацией, основанной на [Real-Time-Voice-Cloning](https://github.com/CorentinJ/Real-Time-Voice-Cloning). Она состоит из четырёх нейронных сетей, которые позволяют создавать числовое представление голоса из нескольких секунд звука и использовать его для создания модели преобразования текста в речь
 
 ## Contribution
-For feedback on the original project: [author's email](niw9102@gmail.com), for this fork: [my email](brasd99@gmail.com)
+For feedback on the original project: niw9102@gmail.com, for this fork: brasd99@gmail.com
 
 ### Additional Information
 For more information, please refer to the original repository [Multi-Tacotron-Voice-Cloning](https://github.com/vlomme/Multi-Tacotron-Voice-Cloning)
