@@ -11,7 +11,7 @@ This repository is a phonemic multilingual (Russian-English) implementation base
 Этот репозиторий является многоязычной (русско-английской) фонемной реализацией, основанной на [Real-Time-Voice-Cloning](https://github.com/CorentinJ/Real-Time-Voice-Cloning). Она состоит из четырёх нейронных сетей, которые позволяют создавать числовое представление голоса из нескольких секунд звука и использовать его для создания модели преобразования текста в речь
 
 ## Examples
-Use this Kaggle notebook to test fork: [link](https://www.kaggle.com/denisbraslavskiy/multi-tacotron-voice-cloning-tensorflow-2)
+Use this Kaggle notebook to test fork: [link](https://www.kaggle.com/denisbraslavskiy/multi-tacotron-voice-cloning-tensorflow-2) (Note that I have only tested on CPU so far, the process in notepad takes some time)
 
 ## Contribution
 For feedback on the original project: niw9102@gmail.com, for this fork: brasd99@gmail.com
