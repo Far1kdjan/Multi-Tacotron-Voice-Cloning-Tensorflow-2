@@ -1,4 +1,9 @@
 # Multi-Tacotron Voice Cloning (TensorFlow 2 support)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/BrasD99/Multi-Tacotron-Voice-Cloning-Tensorflow-2/master/logos/tensorflow-logo.png" width="100%" height="auto"/>
+</p>
+
 This is a fork of [Multi-Tacotron-Voice-Cloning](https://github.com/vlomme/Multi-Tacotron-Voice-Cloning) that includes support for Tensorflow 2.
 This repository is a phonemic multilingual (Russian-English) implementation based on [Real-Time-Voice-Cloning](https://github.com/CorentinJ/Real-Time-Voice-Cloning). it is a four-stage deep learning framework that allows to create a numerical representation of a voice from a few seconds of audio, and to use it to condition a text-to-speech model. If you only need the English version, please use the [original implementation](https://github.com/CorentinJ/Real-Time-Voice-Cloning).
 
