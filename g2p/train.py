@@ -20,8 +20,7 @@ class Hparams:
     # dictionary(Словарь)
     dicdir = "g2p/en.dic"
     # Save Model( Сохранённая модель)
-    logdir = '/Users/brasd99/Documents/HuggingFace/VoiceCloner/data/g2p/log/'
-    #logdir = "g2p/log/"
+    logdir = "g2p/log/"
     
 def load_dict(path_dict):
     phon = []
