@@ -1,4 +1,4 @@
-# Multi-Tacotron Voice Cloning (TensorFlow 2 support)
+# Multi-Tacotron Voice Cloning (TensorFlow 2.x support)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/BrasD99/Multi-Tacotron-Voice-Cloning-Tensorflow-2/master/logos/tensorflow-logo.png" width="100%" height="auto"/>
