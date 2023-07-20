@@ -13,5 +13,8 @@ This repository is a phonemic multilingual (Russian-English) implementation base
 ## Contribution
 For feedback on the original project: niw9102@gmail.com, for this fork: brasd99@gmail.com
 
+## Example
+Use this Kaggle notebook to test fork: [link](https://www.kaggle.com/denisbraslavskiy/multi-tacotron-voice-cloning-tensorflow-2)
+
 ## Additional Information
 For more information, please refer to the original repository [Multi-Tacotron-Voice-Cloning](https://github.com/vlomme/Multi-Tacotron-Voice-Cloning)
